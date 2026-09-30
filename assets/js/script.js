@@ -596,22 +596,25 @@ initContentTestimonialSlider();
 
 
 // ============================================
-// ============================================
 // FAQ
 function initFAQ() {
   const faqItems = document.querySelectorAll('.faq-item');
   if (faqItems.length === 0) return;
+
   faqItems.forEach(item => {
     const trigger   = item.querySelector('.faq-trigger');
     const content   = item.querySelector('.faq-content');
     const border    = item.querySelector('.faq-border');
     const iconClose = item.querySelector('.icon-close');
     if (!trigger) return;
+
     if (iconClose) {
       iconClose.style.transition = 'transform 0.5s ease-in-out';
     }
+
     trigger.addEventListener('click', () => {
       const isOpen = item.classList.contains('active');
+
       faqItems.forEach(other => {
         if (other !== item && other.classList.contains('active')) {
           other.classList.remove('active');
@@ -623,6 +626,7 @@ function initFAQ() {
           if (oC) oC.style.transform = 'rotate(0deg)';
         }
       });
+
       if (isOpen) {
         item.classList.remove('active');
         if (content)   content.style.maxHeight = '0';
@@ -638,22 +642,33 @@ function initFAQ() {
   });
 }
 
-// Single-column FAQ layout — no left/right grid split anymore
 function initFAQGrid() {
   const wrap = document.getElementById('faqGridWrap');
   if (!wrap) return;
+
   const items = Array.from(wrap.querySelectorAll('.faq-item'));
   if (items.length === 0) return;
 
-  wrap.className = 'flex flex-col gap-0 w-full max-w-[1100px] mx-auto';
-  items.forEach(item => wrap.appendChild(item));
+  const leftCol  = document.createElement('div');
+  const rightCol = document.createElement('div');
+  leftCol.className  = 'flex flex-col gap-0 w-full md:w-1/2';
+  rightCol.className = 'flex flex-col gap-0 w-full md:w-1/2';
+
+  items.forEach((item, i) => {
+    if (i % 2 === 0) leftCol.appendChild(item);
+    else             rightCol.appendChild(item);
+  });
+
+  wrap.innerHTML = '';
+  wrap.className = 'flex flex-col md:flex-row md:gap-8 items-start';
+  wrap.appendChild(leftCol);
+  wrap.appendChild(rightCol);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initFAQGrid();
   initFAQ();
 });
-
 
 
 
