@@ -673,6 +673,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
 // PARTNER SLIDER
 document.addEventListener('DOMContentLoaded', () => {
   const partnerSliderEl = document.getElementById('partner-slider');
@@ -696,99 +698,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-
-
-
-
-//  Counter Animation
-gsap.registerPlugin(ScrollTrigger);
-
-const counters = document.querySelectorAll('.counter');
-
-counters.forEach((counter) => {
-    const target = parseInt(counter.dataset.target);  
-    const suffix = counter.dataset.suffix ?? '';     
-    const pad    = parseInt(counter.dataset.pad) || 0;
-
-    const obj = { value: 0 };
-
-    gsap.to(obj, {
-        value: target,
-        duration: 2.5,
-        ease: 'power2.out',
-        scrollTrigger: {
-            trigger: counter,
-            start: 'top 85%',  
-            once: true,        
-        },
-        onUpdate() {
-            const current = Math.round(obj.value);
-            const display = pad
-                ? String(current).padStart(pad, '0') 
-                : current;
-            counter.textContent = display + suffix;
-        },
-        onComplete() {
-           
-            const display = pad
-                ? String(target).padStart(pad, '0')
-                : target;
-            counter.textContent = display + suffix;
-        },
-    });
-});
-
-
-
-// ceo quote animaiton
-
-
-if (document.querySelector('.quote-mask-img') && document.querySelector('.quote-img')) {
-  gsap.fromTo('.quote-mask-img',
-    {
-      clipPath: 'inset(100% 100% 0% 0% round 12px)',
-      opacity: 0,
-      rotate: 45,
-      scale: 0.6,
-      transformOrigin: 'bottom right',
-    },
-    {
-      clipPath: 'inset(0% 0% 0% 0% round 12px)',
-      opacity: 1,
-      rotate: 0,
-      scale: 1,
-      transformOrigin: 'bottom right',
-      duration: 0.9,
-      ease: 'back.out(1.4)',
-      delay: 0.2,
-      scrollTrigger: {
-        trigger: '.quote-img',
-        start: 'top 95%',
-        end: 'bottom 10%',
-        once: false,
-        onEnter: (self) => self.animation.restart(),
-        onEnterBack: (self) => self.animation.restart(),
-        onLeave: () => {
-          gsap.set('.quote-mask-img', {
-            clipPath: 'inset(100% 100% 0% 0% round 12px)',
-            opacity: 0,
-            rotate: 45,
-            scale: 0.6,
-          });
-        },
-        onLeaveBack: () => {
-          gsap.set('.quote-mask-img', {
-            clipPath: 'inset(100% 100% 0% 0% round 12px)',
-            opacity: 0,
-            rotate: 45,
-            scale: 0.6,
-          });
-        },
-      }
-    }
-  );
-}
 
 const lottieMap = new Map();
 
@@ -832,7 +741,7 @@ document.querySelectorAll('.anim-icon').forEach((icon) => {
 
     const target = lottieEl || img;
 
-    // ✅ scale/opacity 0 নেই — clip-path দিয়ে hide
+  
     gsap.set(target, {
         clipPath: 'circle(0% at 50% 50%)',
         scale: 0.6,
